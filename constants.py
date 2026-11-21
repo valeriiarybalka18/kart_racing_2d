@@ -17,7 +17,13 @@ CAR_MAX_REVERSE=2
 class GameState:
     MENU = "menu"
     RACING = "racing"
+    CIRCUIT_SELECT="circuit_select"
 
+# --- Circuits ---
+CIRCUITS=[
+    {"Debutant":"Circuit 1", "start_col":7, "start_row":1},
+    {"Avancé":"Circuit 2", "start_col":3, "start_row":5}
+]
 
 # --- Couleurs UI ---
 COLOR_BG = (15, 15, 25)
