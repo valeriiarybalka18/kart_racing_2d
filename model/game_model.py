@@ -5,6 +5,10 @@ from model.road_tile import RoadTile
 
 
 class GameModel:
+    """Modèle global : état du jeu, circuit et voiture.
+
+    Ne dépend ni du clavier ni de l'affichage.
+    """
 
     def __init__(self):
         self.state: str = GameState.MENU

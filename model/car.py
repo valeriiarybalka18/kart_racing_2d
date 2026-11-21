@@ -7,6 +7,14 @@ from constants import (
 
 
 class Car:
+    """Voiture : position, vitesse, orientation et image.
+
+    Attributes:
+        x, y: Position du centre en pixels.
+        speed: Vitesse actuelle (négative en marche arrière).
+        angle: Orientation en degrés.
+        sprite: Image de base, avant rotation.
+    """
 
     def __init__(self, start_col: int, start_row: int):
         self.x = start_col * TILE_SIZE + TILE_SIZE // 2
@@ -16,9 +24,16 @@ class Car:
         self.sprite = self.build_sprite()
 
     def accelerate(self) -> None:
+        """Augmente la vitesse de CAR_ACCELERATION."""
+
         self.speed += CAR_ACCELERATION
 
     def brake(self) -> None:
+        """Freine si la voiture avance, sinon enclenche la marche arrière.
+
+        La vitesse est bloquée à 0 pendant un freinage et à
+        -CAR_MAX_REVERSE_SPEED en marche arrière.
+        """
         if self.speed >0 :
             self.speed=max(0,self.speed-CAR_BRAKE_FORCE)
         else:

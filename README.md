@@ -16,5 +16,4 @@ python main.py
 (à compléter)
 
 ## Utilisation des outils d'IA
-(à compléter au fil du projet : traduction/explication du sujet, conception,
-code, débogage, commentaires/docstrings, diagramme UML)
+1. Aide a la redaction des dockstrings et la comprehention du sujet

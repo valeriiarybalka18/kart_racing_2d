@@ -10,8 +10,13 @@ from controller.input_handler import InputHandler
 
 
 class GameController:
-
+    """Contrôleur principal du jeu.
+    Fait tourner la boucle principale, lit les entrées du clavier, les
+    traduit en actions sur le modèle et demande à la vue de dessiner.
+    """
     def __init__(self):
+        """Crée la fenêtre, l'horloge, le modèle, 
+        la vue et le gestionnaire d'entrées."""
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.clock = pygame.time.Clock()
         self.model = GameModel()
@@ -20,6 +25,11 @@ class GameController:
         self.running = True
 
     def run(self) -> None:
+        """Lance la boucle principale.
+
+        Chaque itération (une frame) traite les événements, met à jour le
+        jeu, dessine l'écran.
+        """
         while self.running:
             self.handle_events()
             self.update()
@@ -27,6 +37,7 @@ class GameController:
             self.clock.tick(FPS)
 
     def handle_events(self) -> None:
+        """Traite les événements pygame de la frame (fermeture, touche enfoncée)"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit()
@@ -35,13 +46,22 @@ class GameController:
                 self.handle_keydown(event.key)
 
     def handle_keydown(self, key: int) -> None:
+        """Réagit à l'appui sur une touche selon l'état actuel du jeu.
 
+        Args:
+            key: Code de la touche pygame (par exemple pygame.K_RETURN).
+        """
         state = self.model.state
 
         if state == GameState.MENU:
             self.handle_menu_key(key)
 
     def handle_menu_key(self, key: int) -> None:
+        """Gère les touches dans le menu : Entrée lance la course, Échap quitte.
+
+        Args:
+            key: Code de la touche pygame.
+        """
         if key == pygame.K_RETURN:
             self.model.load_circuit()
             self.model.state = GameState.RACING
@@ -49,6 +69,11 @@ class GameController:
             self.quit()
 
     def update(self) -> None:
+        """Met à jour le jeu pour une frame.
+
+        Ne fait rien si la course n'est pas en cours. Sinon lit les entrées
+        du joueur, les applique à la voiture, puis fait avancer le modèle.
+        """
         if self.model.state != GameState.RACING:
             return
 
@@ -58,6 +83,7 @@ class GameController:
         self.model.update()
 
     def apply_input(self, car, player_input) -> None:
+        """Traduit les actions du joueur en commandes sur la voiture."""
         if player_input['accelerate']:
             car.accelerate()
         if player_input['brake']:

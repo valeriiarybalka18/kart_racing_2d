@@ -8,7 +8,7 @@ from model.game_model import GameModel
 
 
 class GameView:
-
+    """Vue : dessine l'état du modèle avec pygame, sans le modifier."""
     def __init__(self, screen: pygame.Surface):
         self.screen = screen
         self.font = pygame.font.SysFont("Arial", 24)
@@ -22,6 +22,7 @@ class GameView:
         pygame.display.flip()
 
     def _draw_menu(self, model: GameModel) -> None:
+        """Dessine le menu principal (titre et boutons)."""
         cx = WINDOW_WIDTH // 2
 
         title_surf = self.font.render(
@@ -41,7 +42,11 @@ class GameView:
             self.screen.blit(text_surf, text_surf.get_rect(center=rect.center))
 
     def _draw_racing(self, model: GameModel) -> None:
+        """Dessine la grille du circuit puis la voiture.
 
+        Args:
+            model: Modèle contenant le circuit et la voiture.
+        """
         for row_idx, row in enumerate(model.circuit.grid):
             for col_idx, tile in enumerate(row):
                 sprite = tile.get_sprite(TILE_SIZE)

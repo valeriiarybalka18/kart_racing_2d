@@ -3,6 +3,12 @@ from constants import TILE_SIZE
 
 
 class RoadTile:
+    """Case de la grille du circuit.
+
+    Attributes:
+        col, row: Coordonnées de la case dans la grille.
+        sprite: Image mise en cache après le premier dessin.
+    """
 
     def __init__(self, col: int, row: int):
         self.col = col
