@@ -1,7 +1,8 @@
 import pygame
 import math
 from constants import (
-    CAR_ACCELERATION, CAR_WIDTH, CAR_HEIGHT, TILE_SIZE
+    CAR_ACCELERATION, CAR_WIDTH, CAR_HEIGHT, TILE_SIZE, 
+    CAR_BRAKE_FORCE, CAR_MAX_REVERSE, CAR_REVERSE_ACCELERATION
 )
 
 
@@ -16,6 +17,12 @@ class Car:
 
     def accelerate(self) -> None:
         self.speed += CAR_ACCELERATION
+
+    def brake(self) -> None:
+        if self.speed >0 :
+            self.speed=max(0,self.speed-CAR_BRAKE_FORCE)
+        else:
+            self.speed=max(-CAR_MAX_REVERSE, self.speed-CAR_REVERSE_ACCELERATION)
 
     def update_position(self) -> None:
         self.y += self.speed
