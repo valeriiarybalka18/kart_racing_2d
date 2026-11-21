@@ -75,7 +75,7 @@ class GameController:
         if key==pygame.K_UP:
             self.model.select_previous_circuit()
         elif key == pygame.K_DOWN:
-            self.model.select_next_circuit
+            self.model.select_next_circuit()
         elif key == pygame.K_RETURN:
             self.model.load_circuit()
             self.model.state=GameState.RACING
