@@ -55,6 +55,10 @@ class GameController:
 
         if state == GameState.MENU:
             self.handle_menu_key(key)
+        elif state == GameState.CIRCUIT_SELECT:
+            self.handle_circuit_select_key(key)
+        elif state == GameState.RACING:
+            self.handle_racing_key(key)
 
     def handle_menu_key(self, key: int) -> None:
         """Gère les touches dans le menu : Entrée lance la course, Échap quitte.
@@ -63,10 +67,24 @@ class GameController:
             key: Code de la touche pygame.
         """
         if key == pygame.K_RETURN:
-            self.model.load_circuit()
-            self.model.state = GameState.RACING
+            self.model.state = GameState.CIRCUIT_SELECT
         elif key == pygame.K_ESCAPE:
             self.quit()
+
+    def handle_circuit_select_key(self,key):
+        if key==pygame.K_UP:
+            self.model.select_previous_circuit()
+        elif key == pygame.K_DOWN:
+            self.model.select_next_circuit
+        elif key == pygame.K_RETURN:
+            self.model.load_circuit()
+            self.model.state=GameState.RACING
+        elif key == pygame.K_ESCAPE:
+            self.model.state=GameState.MENU
+
+    def handle_racing_key(self,key) ->None:
+        if key == pygame.K_ESCAPE:
+            self.model.return_to_menu()   
 
     def update(self) -> None:
         """Met à jour le jeu pour une frame.
