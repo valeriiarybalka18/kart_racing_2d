@@ -18,11 +18,20 @@ class GameState:
     MENU = "menu"
     RACING = "racing"
     CIRCUIT_SELECT="circuit_select"
+    MODE_SELECT = "mode_select"
+    CAR_SELECT = "car_select"
 
 # --- Circuits ---
 CIRCUITS=[
     {"name":"Circuit 1", "start_col":7, "start_row":1},
     {"name":"Circuit 2", "start_col":3, "start_row":5}
+]
+# --- Voitures ---
+CARS = [
+    {"name": "Rouge", "color": (220, 40, 40)},
+    {"name": "Bleue", "color": (40, 90, 220)},
+    {"name": "Verte", "color": (40, 180, 70)},
+    {"name": "Jaune", "color": (240, 200, 40)},
 ]
 
 # --- Couleurs UI ---

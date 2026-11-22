@@ -16,11 +16,12 @@ class Car:
         sprite: Image de base, avant rotation.
     """
 
-    def __init__(self, start_col: int, start_row: int):
+    def __init__(self, start_col: int, start_row: int,color: tuple = (255, 0, 0)):
         self.x = start_col * TILE_SIZE + TILE_SIZE // 2
         self.y = start_row * TILE_SIZE + TILE_SIZE // 2
         self.speed: float = 0.0
         self.angle: float = 0.0
+        self.color = color
         self.sprite = self.build_sprite()
 
     def accelerate(self) -> None:
@@ -44,7 +45,7 @@ class Car:
 
     def build_sprite(self) -> pygame.Surface:
         surf = pygame.Surface((CAR_WIDTH, CAR_HEIGHT), pygame.SRCALPHA)
-        pygame.draw.rect(surf, (255, 0, 0), (0, 0, CAR_WIDTH,
+        pygame.draw.rect(surf, self.color, (0, 0, CAR_WIDTH,
                          CAR_HEIGHT), border_radius=5)
         return surf
 
