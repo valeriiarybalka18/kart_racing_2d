@@ -32,10 +32,10 @@ class GameModel:
     def spawn_car(self, start_col:int, start_row:int) -> None:
         self.car = Car(start_col, start_row)
 
-    def update(self) -> None:
+    def update(self, dt:float, terrain) -> None:
         if self.state != GameState.RACING or self.circuit is None:
             return
-        self.car.update_position()
+        self.car.update(dt)
 
     def return_to_menu(self) -> None:
         self.state=GameState.MENU

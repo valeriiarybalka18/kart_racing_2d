@@ -1,7 +1,7 @@
 import pygame
 import sys
 from constants import (
-    WINDOW_WIDTH, WINDOW_HEIGHT, FPS,
+    WINDOW_WIDTH, WINDOW_HEIGHT, FPS, DT,
     GameState
 )
 from model.game_model import GameModel
@@ -98,7 +98,7 @@ class GameController:
         p1_input = self.input_handler.get_inputs()
         car = self.model.car
         self.apply_input(car, p1_input)
-        self.model.update()
+        self.model.update(DT, None)
 
     def apply_input(self, car, player_input) -> None:
         """Traduit les actions du joueur en commandes sur la voiture."""
@@ -106,6 +106,10 @@ class GameController:
             car.accelerate()
         if player_input['brake']:
             car.brake()
+        if player_input['steer_right']:
+            car.steer_right()
+        if player_input['steer_left']:
+            car.steer_left()
 
     def render(self) -> None:
         self.view.draw(self.model)
