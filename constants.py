@@ -18,6 +18,8 @@ CAR_MAX_REVERSE = 120.0
 CAR_MAX_STEERING_ANGLE = 30.0
 CAR_STEERING_RATE = 120.0 #degres/s(braquage complet en 0,25s)
 CAR_STEERING_RECENTER_RATE = 90.0 #degres/s(retour droit en 0,33s)
+CAR_AIR_DRAG = 0.6 #coeff des frottements de l'air
+CAR_STOP_THRESHOLD = 1.0 #seuil d'arret de la voiture
 
 
 class GameState:

@@ -1,7 +1,7 @@
 import pygame
 import math
 from constants import (
-    CAR_ACCELERATION, CAR_WIDTH, CAR_HEIGHT, TILE_SIZE, CAR_WHEELBASE, CAR_MAX_REVERSE,
+    CAR_ACCELERATION, CAR_WIDTH, CAR_HEIGHT, TILE_SIZE, CAR_WHEELBASE, CAR_MAX_REVERSE, CAR_AIR_DRAG, CAR_STOP_THRESHOLD,
     CAR_BRAKE_FORCE, CAR_REVERSE_ACCELERATION, CAR_MAX_STEERING_ANGLE, CAR_STEERING_RATE, CAR_STEERING_RECENTER_RATE
 )
 
@@ -60,7 +60,10 @@ class Car:
         v_long=self.velocity.dot(forward)
         self.orientation += math.degrees((v_long / CAR_WHEELBASE)*math.tan(math.radians(self.steering_angle)))*dt
         forward_new = pygame.math.Vector2(1,0).rotate(-self.orientation)
-        self.velocity += forward_new*self.acceleration*dt
+        self.velocity += forward_new*self.acceleration*dt #ajout d'acceleration
+        self.velocity -= CAR_AIR_DRAG*self.velocity*dt #frottement de l'air
+        if self.velocity.length()<CAR_STOP_THRESHOLD:
+            self.velocity=pygame.math.Vector2()
         v_long_new = max(-CAR_MAX_REVERSE,self.velocity.dot(forward_new))
         self.velocity = forward_new*v_long_new #provisoir : sans derapage(supprimer apres)
         self.position += self.velocity*dt
