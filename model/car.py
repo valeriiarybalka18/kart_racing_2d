@@ -1,7 +1,7 @@
 import pygame
 import math
 from constants import (
-    CAR_ACCELERATION, CAR_WIDTH, CAR_HEIGHT, TILE_SIZE, CAR_WHEELBASE,
+    CAR_ACCELERATION, CAR_WIDTH, CAR_HEIGHT, TILE_SIZE, CAR_WHEELBASE, CAR_MAX_REVERSE,
     CAR_BRAKE_FORCE, CAR_REVERSE_ACCELERATION, CAR_MAX_STEERING_ANGLE, CAR_STEERING_RATE, CAR_STEERING_RECENTER_RATE
 )
 
@@ -61,7 +61,7 @@ class Car:
         self.orientation += math.degrees((v_long / CAR_WHEELBASE)*math.tan(math.radians(self.steering_angle)))*dt
         forward_new = pygame.math.Vector2(1,0).rotate(-self.orientation)
         self.velocity += forward_new*self.acceleration*dt
-        v_long_new = self.velocity.dot(forward_new)
+        v_long_new = max(-CAR_MAX_REVERSE,self.velocity.dot(forward_new))
         self.velocity = forward_new*v_long_new #provisoir : sans derapage(supprimer apres)
         self.position += self.velocity*dt
         self.acceleration = 0
