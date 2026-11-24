@@ -1,7 +1,8 @@
-from constants import GameState, GRID_ROWS, GRID_COLS, CIRCUITS
+from constants import GameState, GRID_ROWS, GRID_COLS, CIRCUITS, FLOOR_TYPE
 from model.car import Car
 from model.circuit import Circuit
 from model.road_tile import RoadTile
+from model.terrain import Terrain
 
 
 class GameModel:
@@ -24,7 +25,9 @@ class GameModel:
 
     def load_circuit(self) -> None:
         info=CIRCUITS[self.selected_circuit]
-        grid = [[RoadTile(col=col_idx, row=row_idx)
+        #a completer lecture de type
+        
+        grid = [[RoadTile(col=col_idx, row=row_idx,terrain=#a completer)
                 for col_idx in range(GRID_COLS)] for row_idx in range(GRID_ROWS)]
         self.circuit = Circuit(grid=grid)
         self.spawn_car(info["start_col"], info["start_row"])
@@ -36,6 +39,11 @@ class GameModel:
         if self.state != GameState.RACING or self.circuit is None:
             return
         self.car.update_position()
+        self.endroit=self.circuit.get_tile_at_pixel(self.car.x,self.car.y)
+        if self.endroit is not None:
+            grip=self.endroit.terrain.determination_grip()
+        else:
+            grip=0
 
     def return_to_menu(self) -> None:
         self.state=GameState.MENU

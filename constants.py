@@ -13,7 +13,22 @@ CAR_BRAKE_FORCE=0.1
 CAR_REVERSE_ACCELERATION=0.05
 CAR_MAX_REVERSE=2
 
+FLOOR_TYPE={"A":"Asphalte","T":"Terre","H":"Herbe","G":"Glace","V":"Vide"}
 
+C1 = [
+    "HHHHHHHHHHHHHHHH",
+    "HHHAAAAAAAAAAHHH",
+    "HHHAHHHHHHHHAHHH",
+    "HHHAHHHHHHHHAHHH",
+    "HHHTHHHVVHHHAHHH",
+    "HHHTHHHVVHHHAHHH",
+    "HHHAHHHHHHHHGHHH",
+    "HHHAHHHHHHHHGHHH",
+    "HHHAHHHHHHHHAHHH",
+    "HHHAAAAAAAAAAHHH",
+    "HHHHHHHHHHHHHHHH",
+    "HHHHHHHHHHHHHHHH",
+]
 class GameState:
     MENU = "menu"
     RACING = "racing"
@@ -21,7 +36,7 @@ class GameState:
 
 # --- Circuits ---
 CIRCUITS=[
-    {"name":"Circuit 1", "start_col":7, "start_row":1},
+    {"name":"Circuit 1", "start_col":7, "start_row":1,"layout":C1},
     {"name":"Circuit 2", "start_col":3, "start_row":5}
 ]
 

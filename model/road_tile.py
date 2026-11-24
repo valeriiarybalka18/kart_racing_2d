@@ -1,6 +1,6 @@
 import pygame
 from constants import TILE_SIZE
-from terrain import Terrain
+from model.terrain import Terrain
 
 class RoadTile:
     """Case de la grille du circuit.
