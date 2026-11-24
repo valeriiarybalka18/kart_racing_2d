@@ -33,19 +33,27 @@ class Car:
 
         self.acceleration = CAR_ACCELERATION
 
+    @property
+    def forward(self) -> pygame.math.Vector2 :
+        return pygame.math.Vector2(1,0).rotate(-self.orientation)
+
+    @property
+    def longitudial_speed(self) -> float:
+        return self.velocity.dot(self.forward)
+
     def brake(self) -> None:
         """Freine si la voiture avance, sinon enclenche la marche arrière.
 
         La vitesse est bloquée à 0 pendant un freinage et à
         -CAR_MAX_REVERSE_SPEED en marche arrière.
         """
-        forward = pygame.math.Vector2(1,0).rotate(-self.orientation)
-        if self.velocity.dot(forward) > 0:
+        if self.longitudial_speed > 0:
             self.acceleration = -CAR_BRAKE_FORCE
         else:
             self.acceleration = -CAR_REVERSE_ACCELERATION
 
-    def update(self, dt:float) -> None:
+    def _update_steering(self, dt:float) ->None:
+        """Met à jour l'angle de braquage ou le recentre vers 0."""
         if self.steering_input != 0:
             self.steering_angle = max(-CAR_MAX_STEERING_ANGLE, min(self.steering_angle+self.steering_input*CAR_STEERING_RATE*dt,CAR_MAX_STEERING_ANGLE))
         else:
@@ -56,19 +64,43 @@ class Car:
                 self.steering_angle -= step
             elif self.steering_angle < 0:
                 self.steering_angle += step
-        forward = pygame.math.Vector2(1,0).rotate(-self.orientation)
-        v_long=self.velocity.dot(forward)
-        self.orientation += math.degrees((v_long / CAR_WHEELBASE)*math.tan(math.radians(self.steering_angle)))*dt
-        forward_new = pygame.math.Vector2(1,0).rotate(-self.orientation)
-        self.velocity += forward_new*self.acceleration*dt #ajout d'acceleration
+
+    def _update_orientation(self, dt:float) -> None:
+        """Fait pivoter la voiture selon le modèle bicyclette."""
+        self.orientation += math.degrees((self.longitudial_speed / CAR_WHEELBASE)*math.tan(math.radians(self.steering_angle)))*dt
+
+    def _apply_forces(self, dt:float) ->None:
+        """Applique l'accélération, le frottement de l'air et le seuil d'arrêt."""
+        self.velocity += self.forward*self.acceleration*dt #ajout d'acceleration
         self.velocity -= CAR_AIR_DRAG*self.velocity*dt #frottement de l'air
         if self.velocity.length()<CAR_STOP_THRESHOLD:
             self.velocity=pygame.math.Vector2()
-        v_long_new = max(-CAR_MAX_REVERSE,self.velocity.dot(forward_new))
-        self.velocity = forward_new*v_long_new #provisoir : sans derapage(supprimer apres)
-        self.position += self.velocity*dt
+
+    def _apply_grip(self) -> None:
+        """Aligne la vitesse sur l'axe avant (provisoire) et borne la marche arrière."""
+        self.velocity = self.forward*max(-CAR_MAX_REVERSE,self.longitudial_speed)
+
+    def _reset_inputs(self) -> None:
+        """Réinitialise les intentions de commande pour la frame suivante."""
         self.acceleration = 0
         self.steering_input = 0
+
+    def update(self, dt:float) -> None:
+        """Met à jour la physique de la voiture sur un pas de temps.
+
+        Enchaîne le braquage, la rotation, l'application des forces
+        (moteur, freinage, frottements), l'adhérence et le déplacement,
+        puis réinitialise les intentions de commande de la frame.
+
+        Args:
+            dt: Pas de temps écoulé depuis la frame précédente, en secondes.
+        """
+        self._update_steering(dt)
+        self._update_orientation(dt)
+        self._apply_forces(dt)
+        self._apply_grip() #provisoire : sans derapage(supprimer apres)
+        self.position += self.velocity*dt
+        self._reset_inputs()
 
     def build_sprite(self) -> pygame.Surface:
         surf = pygame.Surface((CAR_WIDTH, CAR_HEIGHT), pygame.SRCALPHA)
