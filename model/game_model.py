@@ -25,10 +25,15 @@ class GameModel:
 
     def load_circuit(self) -> None:
         info=CIRCUITS[self.selected_circuit]
-        #a completer lecture de type
-        
-        grid = [[RoadTile(col=col_idx, row=row_idx,terrain=#a completer)
-                for col_idx in range(GRID_COLS)] for row_idx in range(GRID_ROWS)]
+        terrains={lettre:Terrain(mot) for lettre,mot in FLOOR_TYPE.items()}
+        grid = [ ]
+        liste=[]
+        for row_idx in range(GRID_ROWS):
+            for col_idx in range(GRID_COLS):
+                ltr=info["layout"][row_idx][col_idx]
+                liste.append(RoadTile(col=col_idx, row=row_idx,terrain=terrains[ltr]))
+            grid.append(liste)
+            liste=[]
         self.circuit = Circuit(grid=grid)
         self.spawn_car(info["start_col"], info["start_row"])
 
