@@ -17,7 +17,7 @@ class GameController:
     def __init__(self):
         """Crée la fenêtre, l'horloge, le modèle, 
         la vue et le gestionnaire d'entrées."""
-        self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.FULLSCREEN | pygame.SCALED,)
         self.clock = pygame.time.Clock()
         self.model = GameModel()
         self.view = GameView(self.screen)

@@ -6,11 +6,11 @@ DT=1/FPS
 
 TILE_SIZE = 15
 GRID_COLS = 128
-GRID_ROWS = 71
+GRID_ROWS = 72
 
 CAR_ACCELERATION = 180.0
-CAR_WIDTH = 50
-CAR_HEIGHT = 30
+CAR_WIDTH = 58
+CAR_HEIGHT = 35
 CAR_WHEELBASE = 50
 CAR_BRAKE_FORCE = 360.0
 CAR_REVERSE_ACCELERATION = 180.0
@@ -20,16 +20,7 @@ CAR_STEERING_RATE = 120.0 #degres/s(braquage complet en 0,25s)
 CAR_STEERING_RECENTER_RATE = 90.0 #degres/s(retour droit en 0,33s)
 CAR_AIR_DRAG = 0.6 #coeff des frottements de l'air
 CAR_STOP_THRESHOLD = 1.0 #seuil d'arret de la voiture
-TILE_SIZE = 15
-GRID_COLS = 128
-GRID_ROWS = 72
 
-CAR_ACCELERATION = 0.05
-CAR_WIDTH = 35
-CAR_HEIGHT = 58
-CAR_BRAKE_FORCE=0.1
-CAR_REVERSE_ACCELERATION=0.05
-CAR_MAX_REVERSE=2
 
 FLOOR_TYPE={"A":"Asphalte","T":"Terre","H":"Herbe","G":"Glace","V":"Vide"}
 FLOOR_COLOR = {"Asphalte": (80, 80, 90),"Terre":(139, 90, 43),"Herbe":(60, 160, 70),"Glace":(170, 220, 245),"Vide":(0, 0, 0),}
