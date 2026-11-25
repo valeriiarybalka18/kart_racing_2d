@@ -128,3 +128,6 @@ class Car:
         self.is_drifting = False
         if orientation is not None:
             self.orientation = orientation
+
+    def apply_boost(self, amount : float) -> None:
+        self.velocity += self.forward*amount
