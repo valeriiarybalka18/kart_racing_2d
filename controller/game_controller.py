@@ -1,4 +1,4 @@
-import pygame
+import pygame  # type: ignore[reportMissingImports]
 import sys
 from constants import (
     WINDOW_WIDTH, WINDOW_HEIGHT, FPS, DT,
