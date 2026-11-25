@@ -22,7 +22,5 @@ class RoadTile:
             return self.sprite
         surface = pygame.Surface((tile_size, tile_size))
         surface.fill(FLOOR_COLOR[self.terrain.sol])
-        #pygame.draw.rect(surface, (60, 60, 70), surface.get_rect(), 2)
-
         self.sprite = surface
         return self.sprite

@@ -15,6 +15,8 @@ CAR_MAX_REVERSE=2
 
 FLOOR_TYPE={"A":"Asphalte","T":"Terre","H":"Herbe","G":"Glace","V":"Vide"}
 FLOOR_COLOR = {"Asphalte": (80, 80, 90),"Terre":(139, 90, 43),"Herbe":(60, 160, 70),"Glace":(170, 220, 245),"Vide":(0, 0, 0),}
+
+OBJET_POIDS={"Champignon":18.3,"Banane":18.3,"Bombe":14,"Etoile":12,"Carapace bleue":5,"Carapace verte":18.3,"Huile":14}
 """aide par ia pour generer le trace"""
 C1 = [
     "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
