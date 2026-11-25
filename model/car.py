@@ -119,4 +119,12 @@ class Car:
     def steer_left(self) -> None:
         self.steering_input = 1
         
-    
+    def teleport(self, pos : pygame.math.Vector2, orientation =None) -> None:
+        self.position = pygame.math.Vector2(pos)
+        self.velocity = pygame.math.Vector2()
+        self.acceleration = 0.0
+        self.steering_input = 0.0
+        self.steering_angle = 0.0
+        self.is_drifting = False
+        if orientation is not None:
+            self.orientation = orientation
