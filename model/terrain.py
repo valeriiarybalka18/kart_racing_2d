@@ -15,6 +15,10 @@ class Terrain:
             return 0.05
         elif self.sol=="Vide":
             return 0
+        elif self.sol=="Mur":
+            return 0
+        elif self.sol=="Ligne":
+            return 0
         else:
             raise ValueError(f"y'a une erreur dans le nom de sol a {self.sol}")
     def determination_traction(self):#pour determiner la traction en general
@@ -27,6 +31,10 @@ class Terrain:
         elif self.sol == "Glace":
             return 0.3
         elif self.sol=="Vide":
+            return 0
+        elif self.sol=="Mur":
+            return 0
+        elif self.sol=="Ligne":
             return 0
         else:
             raise ValueError(f"y'a une erreur dans le nom de sol a {self.sol}")
@@ -41,7 +49,13 @@ class Terrain:
             return 0.1
         elif self.sol=="Vide":
             return 0
+        elif self.sol=="Mur":
+            return 0
+        elif self.sol=="Ligne":
+            return 0
         else:
             raise ValueError(f"y'a une erreur dans le nom de sol a {self.sol}")
     def est_vide(self):
         return (self.sol=="Vide")
+    def est_mur(self):
+        return self.sol=="Mur"
