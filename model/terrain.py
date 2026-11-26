@@ -45,3 +45,19 @@ class Terrain:
             raise ValueError(f"y'a une erreur dans le nom de sol a {self.sol}")
     def est_vide(self):
         return (self.sol=="Vide")
+
+    @property
+    def traction(self) ->float:
+        return self.determination_traction()
+
+    @property
+    def grip_threshold(self) -> float:
+        return self.determination_seuil()
+
+    @property
+    def drift_friction(self):
+        return self.determination_grip()
+
+    @property
+    def is_void(self) -> bool:
+        return self.est_vide()

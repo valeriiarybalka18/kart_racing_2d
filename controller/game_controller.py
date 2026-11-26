@@ -98,7 +98,7 @@ class GameController:
         p1_input = self.input_handler.get_inputs()
         car = self.model.car
         self.apply_input(car, p1_input)
-        self.model.update(DT, None)
+        self.model.update(DT)
 
     def apply_input(self, car, player_input) -> None:
         """Traduit les actions du joueur en commandes sur la voiture."""

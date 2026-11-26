@@ -27,6 +27,8 @@ class Car:
         self.is_drifting:bool = False
         self.acceleration:float = 0.0 #px/s^2
         self.steering_input:int = 0 #-1:droite, 0:rien, +1:gauche
+        self.start_postion=pygame.math.Vector2(start_x, start_y)
+        self.start_orientation=0.0
 
     def accelerate(self) -> None:
         """Augmente la vitesse de CAR_ACCELERATION."""
@@ -38,7 +40,7 @@ class Car:
         return pygame.math.Vector2(1,0).rotate(-self.orientation)
 
     @property
-    def longitudial_speed(self) -> float:
+    def longitudinal_speed(self) -> float:
         return self.velocity.dot(self.forward)
 
     def brake(self) -> None:
@@ -47,7 +49,7 @@ class Car:
         La vitesse est bloquée à 0 pendant un freinage et à
         -CAR_MAX_REVERSE_SPEED en marche arrière.
         """
-        if self.longitudial_speed > 0:
+        if self.longitudinal_speed > 0:
             self.acceleration = -CAR_BRAKE_FORCE
         else:
             self.acceleration = -CAR_REVERSE_ACCELERATION
@@ -67,25 +69,25 @@ class Car:
 
     def _update_orientation(self, dt:float) -> None:
         """Fait pivoter la voiture selon le modèle bicyclette."""
-        self.orientation += math.degrees((self.longitudial_speed / CAR_WHEELBASE)*math.tan(math.radians(self.steering_angle)))*dt
+        self.orientation += math.degrees((self.longitudinal_speed / CAR_WHEELBASE)*math.tan(math.radians(self.steering_angle)))*dt
 
-    def _apply_forces(self, dt:float) ->None:
+    def _apply_forces(self, dt:float, traction : float) ->None:
         """Applique l'accélération, le frottement de l'air et le seuil d'arrêt."""
-        self.velocity += self.forward*self.acceleration*dt #ajout d'acceleration
-        self.velocity -= CAR_AIR_DRAG*self.velocity*dt #frottement de l'air
-        if self.velocity.length()<CAR_STOP_THRESHOLD:
+        self.velocity += self.forward*self.acceleration*dt*traction #ajout d'acceleration en fonction du terrain
+        self.velocity -= (CAR_AIR_DRAG/traction)*self.velocity*dt #frottement de l'air
+        if self.acceleration==0 and self.velocity.length()<CAR_STOP_THRESHOLD:
             self.velocity=pygame.math.Vector2()
 
     def _apply_grip(self) -> None:
         """Aligne la vitesse sur l'axe avant (provisoire) et borne la marche arrière."""
-        self.velocity = self.forward*max(-CAR_MAX_REVERSE,self.longitudial_speed)
+        self.velocity = self.forward*max(-CAR_MAX_REVERSE,self.longitudinal_speed)
 
     def _reset_inputs(self) -> None:
         """Réinitialise les intentions de commande pour la frame suivante."""
         self.acceleration = 0
         self.steering_input = 0
 
-    def update(self, dt:float) -> None:
+    def update(self, dt:float, terrain) -> None:
         """Met à jour la physique de la voiture sur un pas de temps.
 
         Enchaîne le braquage, la rotation, l'application des forces
@@ -95,9 +97,23 @@ class Car:
         Args:
             dt: Pas de temps écoulé depuis la frame précédente, en secondes.
         """
+        if terrain is None:
+            traction = 1.0
+            grip_threshold = 1.0
+            drift_friction = 1.4
+            is_void = False
+        else :
+            traction = terrain.traction
+            grip_threshold=terrain.grip_threshold
+            drift_friction = terrain.drift_friction
+            is_void = terrain.is_void
+
+        if is_void :
+            self._reset_inputs()
+            return
         self._update_steering(dt)
         self._update_orientation(dt)
-        self._apply_forces(dt)
+        self._apply_forces(dt, traction)
         self._apply_grip() #provisoire : sans derapage(supprimer apres)
         self.position += self.velocity*dt
         self._reset_inputs()
@@ -119,11 +135,11 @@ class Car:
     def steer_left(self) -> None:
         self.steering_input = 1
         
-    def teleport(self, pos : pygame.math.Vector2, orientation =None) -> None:
+    def teleport(self, pos : pygame.math.Vector2, orientation : float | None =None) -> None:
         self.position = pygame.math.Vector2(pos)
         self.velocity = pygame.math.Vector2()
         self.acceleration = 0.0
-        self.steering_input = 0.0
+        self.steering_input = 0
         self.steering_angle = 0.0
         self.is_drifting = False
         if orientation is not None:
