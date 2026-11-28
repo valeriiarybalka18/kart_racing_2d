@@ -20,7 +20,9 @@ CAR_STEERING_RATE = 120.0 #degres/s(braquage complet en 0,25s)
 CAR_STEERING_RECENTER_RATE = 90.0 #degres/s(retour droit en 0,33s)
 CAR_AIR_DRAG = 0.6 #coeff des frottements de l'air
 CAR_STOP_THRESHOLD = 1.0 #seuil d'arret de la voiture
-
+A_LAT_MAX = 500 #px/s^2,  acceleration lateral max
+DRIFT_FRICTION_SCALE = 4
+DRIFT_EXIT_LATERAL_SPEED = 15.0
 
 FLOOR_TYPE={"A":"Asphalte","T":"Terre","H":"Herbe","G":"Glace","V":"Vide"}
 FLOOR_COLOR = {"Asphalte": (80, 80, 90),"Terre":(139, 90, 43),"Herbe":(60, 160, 70),"Glace":(170, 220, 245),"Vide":(0, 0, 0),}
@@ -186,6 +188,8 @@ CIRCUITS=[
     {"name":"Circuit 1", "start_col":59, "start_row":11,"layout":C1},
     {"name":"Circuit 2", "start_col":22, "start_row":34,"layout":C2}
 ]
+
+CAR_DRAG_FACTOR = {"Asphalte" : 1.0, "Herbe" : 1.4, "Terre" : 1.4, "Glace" : 0.5, "Vide" : 1.0}
 
 # --- Couleurs UI ---
 COLOR_BG = (15, 15, 25)
